@@ -1,0 +1,10 @@
+{
+  "max_okx_risk_level": 2,
+  "max_slippage_bps": 150,
+  "minimum_wallet_reserve_usd": 250,
+  "require_stop_loss": true,
+  "require_take_profit": true,
+  "require_tx_logging_plan": true,
+  "max_position_size_pct": 12,
+  "max_daily_loss_pct": 4
+}

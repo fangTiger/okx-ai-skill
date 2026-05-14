@@ -1,0 +1,27 @@
+{
+  "chain": "solana",
+  "execution_method": "Agentic Wallet",
+  "from_symbol": "TOKEN_A",
+  "to_symbol": "TOKEN_B",
+  "multi_account": false,
+  "registered_account_count": 1,
+  "wallet_exported": true,
+  "wash_trading": false,
+  "circular_trading": false,
+  "external_reverse_hedge": false,
+  "signal_source": "OnchainOS",
+  "okx_risk_level": 2,
+  "slippage_bps": 80,
+  "position_size_pct": 8,
+  "daily_loss_pct": 1,
+  "wallet_value_after_trade_usd": 800,
+  "stop_loss": {
+    "type": "percent",
+    "value": 6
+  },
+  "take_profit": {
+    "type": "risk_reward",
+    "value": 1.8
+  },
+  "tx_logging_plan": "Record timestamp, chain, symbols, amount, risk level, score, tx hash, realized PnL fields, wallet value after trade, and compliance notes."
+}
