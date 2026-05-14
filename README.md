@@ -15,7 +15,7 @@
 
 ## 目录
 
-- `skills/agentic-contest-trader/SKILL.md`：Skill 主文件。
+- `skills/agentic-contest-trader/SKILL.md`：带 YAML 元数据、触发描述、输出格式和示例的 Skill 主文件。
 - `prompts/agentic_registration_prompt.md`：官方注册提示词与安全提醒。
 - `config/contest.config.json`：比赛边界和禁止行为配置。
 - `config/risk.config.json`：风险阈值与执行必填项。
@@ -25,7 +25,7 @@
 - `tests/*.test.ts`：Node 原生测试。
 - `examples/`：合规计划、违规计划和日报输出样例。
 - `docs/`：策略、风控、可观测性、提交清单与审查报告。
-- `QUALITY_AWARD_RUBRIC.md`：评审标准到交付证据的映射。
+- `SUBMISSION_EVIDENCE.md`：提交包内容、验证路径和安全边界的证据索引。
 - `SUBMISSION_MANIFEST.md`：提交包清单和排除项。
 
 ## 本地验证
@@ -52,7 +52,7 @@ node --experimental-strip-types scripts/check_compliance.ts config/contest.confi
 
 ## 给评审者的快速路径
 
-1. 阅读 `QUALITY_AWARD_RUBRIC.md`。
+1. 阅读 `SUBMISSION_EVIDENCE.md`。
 2. 阅读 `docs/judge_walkthrough.md`。
 3. 运行 `npm test` 和 `npm run validate:config`。
 4. 用 `examples/` 下的 JSON 文件验证通过与拒绝路径。

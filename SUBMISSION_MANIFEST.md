@@ -12,6 +12,7 @@
 - `tests/compliance.test.ts`
 - `tests/invalid_trade_filter.test.ts`
 - `tests/risk_policy.test.ts`
+- `tests/skill_quality.test.ts`
 - `examples/compliant_trade_plan.json`
 - `examples/rejected_wallet_export_plan.json`
 - `examples/rejected_non_counting_swap_plan.json`
@@ -26,7 +27,7 @@
 - `logs/.gitkeep`
 - `.gitignore`
 - `README.md`
-- `QUALITY_AWARD_RUBRIC.md`
+- `SUBMISSION_EVIDENCE.md`
 - `SUBMISSION_MANIFEST.md`
 - `package.json`
 

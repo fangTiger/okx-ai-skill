@@ -1,109 +1,110 @@
 # Skill Quality Award Rubric
 
-This document maps the submission package to the Skill Quality Award criteria listed on the OKX Agentic Wallet Trading Competition page: strategy completeness, risk control framework, execution reliability, user safety onboarding, and observability.
+This document maps the package to the OKX Agentic Wallet Trading Competition Skill Quality Award scoring model: 50% AI score and 50% human score.
 
-## 1. Strategy Completeness
+## Hard Requirement
 
-### Evidence
+Skill must use onchainOS / OnchainOS as the primary information source and trading tool.
 
-- `skills/agentic-contest-trader/SKILL.md`
-- `docs/strategy.md`
-- `config/contest.config.json`
+Status: `PASS`
 
-### What The Skill Provides
+Evidence:
 
-- A complete pre-trade decision path: chain eligibility, Agentic Wallet execution, valid trade type, signal quality, risk budget, and logging readiness.
-- A signal model based on OnchainOS-observable market structure and Agentic Wallet account state.
-- Position sizing and exit rules tied to realized PnL, wallet reserve, slippage, and signal invalidation.
+- `skills/agentic-contest-trader/SKILL.md` says the primary information source and trading tool must be OnchainOS and Agentic Wallet.
+- `config/contest.config.json` sets `execution.primary_stack` to `["OnchainOS", "Agentic Wallet"]`.
+- `scripts/check_compliance.ts` rejects plans whose `signal_source` is not `OnchainOS`.
+- `tests/compliance.test.ts` covers non-OnchainOS rejection.
 
-### What It Intentionally Avoids
+## AI Score Criteria
 
-- No specific token buy/sell recommendations.
-- No automated live execution from this repository.
-- No strategy designed around volume inflation or artificial PnL.
+### 1. Structure And Metadata (25 pts)
 
-## 2. Risk Control Framework
+Status: `PASS`
 
-### Evidence
+Evidence:
 
-- `config/risk.config.json`
-- `docs/risk_policy.md`
-- `scripts/check_compliance.ts`
-- `tests/compliance.test.ts`
-- `tests/invalid_trade_filter.test.ts`
-- `tests/risk_policy.test.ts`
+- `skills/agentic-contest-trader/SKILL.md` starts with YAML frontmatter containing only `name` and `description`.
+- Directory organization is narrow and reviewable: `skills/`, `config/`, `scripts/`, `tests/`, `examples/`, `docs/`, `prompts/`, `logs/`.
+- `SUBMISSION_MANIFEST.md` lists the exact submission package and excludes root-project strategy pollution.
+- `tests/skill_quality.test.ts` checks frontmatter, description length, and SKILL.md size control.
 
-### Controls
+### 2. Trigger Description Quality (25 pts)
 
-- Rejects chains outside Solana and X Layer.
-- Requires Agentic Wallet execution.
-- Rejects stablecoin, native token, and wrapped native token non-counting swaps.
-- Rejects multi-account operation and `registered_account_count > 1`.
-- Rejects wallet export when `wallet_export_disqualifies=true`.
-- Rejects wash trading, circular trading, and external reverse hedging flags.
-- Rejects high OKX risk level, excessive slippage, wallet reserve breach, and missing stop loss / take profit / tx logging plan.
+Status: `PASS`
 
-## 3. Execution Reliability
+Evidence:
 
-### Evidence
+- YAML `description` starts with `Use when` and includes common user intents: OKX Agentic Wallet Trading Competition, Agentic Contest, OnchainOS signal checks, Solana / X Layer compliance, pre-trade risk review, daily reports, and Skill Quality Award review.
+- `SKILL.md` has explicit `Trigger Phrases` in English and Chinese.
+- `SKILL.md` has `Non-Trigger Guardrails` for unrelated market chat, generic price lookup, wallet export, multi-account behavior, volume farming, and legal/tax/financial-advice requests.
+- `tests/skill_quality.test.ts` checks trigger and guardrail coverage.
 
-- `scripts/validate_config.ts`
-- `scripts/check_compliance.ts`
-- `scripts/summarize_trades.ts`
-- `examples/compliant_trade_plan.json`
-- `examples/rejected_wallet_export_plan.json`
-- `examples/rejected_non_counting_swap_plan.json`
-- `examples/trades.sample.jsonl`
+### 3. Instruction Quality (30 pts)
 
-### Reliability Pattern
+Status: `PASS`
 
-1. Validate configuration before trading.
-2. Run compliance checks before each planned trade.
-3. Reject uncertain or incomplete plans by default.
-4. Log each completed transaction locally for daily review.
-5. Summarize local logs without reading secrets or contacting external services.
+Evidence:
 
-## 4. User Safety Onboarding
+- `SKILL.md` explains the reason behind each core step: OnchainOS-first evidence, Agentic Wallet eligibility, allowed-chain filtering, fail-closed compliance checks, risk sizing, and local logging.
+- `SKILL.md` defines required inputs and tells the agent to reject missing or unverifiable plans instead of guessing.
+- `SKILL.md` defines a compact output format with `decision`, `chain`, `onchainos_evidence`, `eligibility_checks`, `risk_checks`, `execution_note`, `logging_plan`, and `next_review`.
+- `SKILL.md` includes proceed and reject examples.
+- `scripts/check_compliance.ts` provides exact reason codes for rejected plans.
 
-### Evidence
+### 4. Execution Efficiency And Performance (20 pts)
 
-- `README.md`
-- `prompts/agentic_registration_prompt.md`
-- `docs/judge_walkthrough.md`
-- `docs/submission_review.md`
+Status: `PASS`
 
-### Safety Guarantees
+Evidence:
 
-- The package tells users to install and use OnchainOS / Agentic Wallet in the official Agent environment.
-- The official registration prompt is isolated in `prompts/agentic_registration_prompt.md`.
-- The package explicitly warns against entering email, verification codes, private keys, seed phrases, wallet addresses, or API keys into local files.
-- The package stops if wallet export or account eligibility is uncertain.
+- Repeated logic is scripted: `validate_config.ts`, `check_compliance.ts`, and `summarize_trades.ts`.
+- `package.json` exposes reusable commands: `npm test`, `npm run validate:config`, `npm run check:compliance`, and `npm run summarize`.
+- Error handling is fail-closed: missing fields, invalid numeric domains, non-counting swaps, wallet export, multi-account use, wash trading, circular trading, and external hedging return explicit fail reasons.
+- The package is local and offline; it does not call external HTTP services or connect to a real wallet.
 
-## 5. Observability
+## Human Score Criteria
 
-### Evidence
+### 1. Strategy Executability
 
-- `docs/observability.md`
-- `scripts/summarize_trades.ts`
-- `examples/daily_report.md`
-- `examples/trades.sample.jsonl`
+Status: `PASS`
 
-### Metrics
+Evidence:
 
-- Total valid volume.
-- Realized PnL.
-- Average realized PnL%.
-- Number of trades.
-- Invalid or suspicious entries.
-- Wallet reserve warning.
-- Markdown daily report for human review.
+- `docs/strategy.md` explains the strategy sequence from OnchainOS signal evidence to Agentic Wallet manual confirmation.
+- `docs/risk_policy.md` defines risk limits and stop conditions.
+- `examples/compliant_trade_plan.json` can be checked locally before manual execution.
+- `docs/judge_walkthrough.md` gives a short runbook for human reviewers.
+
+### 2. Strategy Result Effectiveness
+
+Status: `PASS WITH LIVE-USE CAVEAT`
+
+Evidence:
+
+- The strategy optimizes for realized PnL, realized PnL%, valid trading volume, and wallet total value.
+- `scripts/summarize_trades.ts` summarizes valid volume, realized PnL, average realized PnL%, suspicious entries, and reserve warnings.
+- `examples/daily_report.md` shows the expected daily review artifact.
+
+Live-use caveat:
+
+- This package is a static Skill Quality Award submission. It does not include real wallet balance, real transaction hashes, dry-run proof, or live trade proof.
+
+### 3. Strategy Theme Innovation
+
+Status: `PASS`
+
+Evidence:
+
+- The theme is an OnchainOS-first contest trader that treats compliance and eligibility as first-class strategy gates instead of after-the-fact reporting.
+- It separates signal quality, execution eligibility, risk budget, and observability into independently testable artifacts.
+- It avoids risky leaderboard gaming patterns such as volume farming, multi-account behavior, and non-counting swaps.
 
 ## Score-Oriented Summary
 
-This package is optimized for AI and manual review clarity:
+This package is optimized for both automated and human review:
 
-- It is self-contained in this directory.
-- It has runnable tests and examples.
-- It contains no live wallet connection.
-- It documents why prohibited behavior is rejected.
-- It includes a manifest that separates submission files from root-project strategy pollution.
+- AI can discover the skill through YAML metadata and trigger phrases.
+- AI can avoid misuse through explicit non-trigger guardrails.
+- Human reviewers can run local scripts and examples without secrets or wallet access.
+- Compliance gates are executable and covered by tests.
+- OnchainOS / Agentic Wallet is the stated and tested primary stack.

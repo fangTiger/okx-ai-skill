@@ -1,8 +1,100 @@
+---
+name: agentic-contest-trader
+description: Use when a user wants OKX Agentic Wallet Trading Competition help, Agentic Contest trade planning, OnchainOS-based signal checks, Solana or X Layer token trade compliance, pre-trade risk review, or daily contest reports.
+---
+
 # Agentic Contest Trader
 
 ## Purpose
 
 以单一 Agentic Wallet 注册账号为前提，为 OKX Agentic Wallet Trading Competition 提供合规交易决策框架、执行前核查、风险控制、可观测性和日报模板。主要数据源和交易工具必须是 OnchainOS 与 Agentic Wallet。
+
+## Trigger Phrases
+
+Use this skill for user requests that mention one or more of these intents:
+
+- `OKX Agentic Wallet Trading Competition`, `Agentic Trading Contest`, `Agentic Contest`.
+- `OnchainOS` or `onchainOS` strategy, signal, compliance, or trade plan.
+- `Agentic Wallet` registration, contest trade, realized PnL, realized PnL%, valid trading volume, or wallet total value.
+- Solana / X Layer token trade candidates that need pre-trade eligibility review.
+- 中文触发：`OKX Agentic 钱包交易赛`、`Agentic Wallet 比赛`、`链上信号`、`赛前检查`、`交易合规`、`日报复盘`。
+
+## Non-Trigger Guardrails
+
+Do not use this skill as the primary answer for:
+
+- General market chat that is unrelated to the OKX Agentic Wallet Trading Competition.
+- Token price lookup without OnchainOS / Agentic Wallet evidence.
+- Requests to export a wallet, use multiple accounts, wash trade, circular trade, or hedge externally.
+- Stablecoin / native / wrapped-native swaps whose purpose is volume farming.
+- Legal, tax, accounting, or personalized financial advice.
+
+## Required Inputs
+
+- `chain`: `solana` or `x_layer`.
+- `execution_method`: `Agentic Wallet`.
+- `signal_source`: `OnchainOS`.
+- Trade symbols, risk level, slippage, position size, daily loss budget, wallet reserve after trade.
+- Stop loss, take profit, and transaction logging plan.
+
+If any required input is missing or cannot be verified, reject the trade plan instead of guessing.
+
+## Core Workflow
+
+1. Use OnchainOS as the primary signal source because contest decisions need chain-native information and execution evidence.
+2. Confirm Agentic Wallet execution because only registered Agentic Wallet activity is eligible.
+3. Filter allowed chain and trade type before analyzing edge because non-counting swaps waste risk budget and distort contest records.
+4. Run local compliance checks before any manual confirmation because incomplete or malformed plans must fail closed.
+5. Size the trade only after risk, slippage, reserve, stop loss, and take profit are known.
+6. Log every completed transaction locally so daily realized PnL, volume, and suspicious entries remain auditable.
+
+## Output Format
+
+Return a compact decision block:
+
+```text
+decision: proceed | reject | watch
+chain:
+agentic_wallet_required: true
+onchainos_evidence:
+eligibility_checks:
+risk_checks:
+execution_note: Manual confirmation in Agentic Wallet only.
+logging_plan:
+next_review:
+```
+
+For rejected plans, put the exact reason codes from `scripts/check_compliance.ts` in `eligibility_checks` or `risk_checks`.
+
+## Examples
+
+Proceed example:
+
+```text
+decision: proceed
+chain: solana
+agentic_wallet_required: true
+onchainos_evidence: liquidity and activity signals are present
+eligibility_checks: allowed_chain, agentic_wallet_required, counting_trade_type
+risk_checks: risk_level_ok, slippage_ok, reserve_ok, stop_loss_present, take_profit_present
+execution_note: Manual confirmation in Agentic Wallet only.
+logging_plan: record tx hash, signal summary, risk level, realized PnL, and volume
+next_review: daily report after settlement
+```
+
+Reject example:
+
+```text
+decision: reject
+chain: solana
+agentic_wallet_required: true
+onchainos_evidence: insufficient
+eligibility_checks: non_counting_swap
+risk_checks: not evaluated after eligibility failure
+execution_note: Do not execute.
+logging_plan: record rejected plan and reason code
+next_review: choose a token trade with OnchainOS evidence
+```
 
 ## Hard Compliance Rules
 

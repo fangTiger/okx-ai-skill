@@ -9,21 +9,21 @@ This package is intentionally scoped to static Skill instructions, local configu
 ## Reviewed Items
 
 - `README.md` explains the package goal, competition constraints, local commands, and safety boundary.
-- `skills/agentic-contest-trader/SKILL.md` covers Purpose, Hard Compliance Rules, Eligibility Targets, Allowed Chains, Disallowed Trade Types, Pre-Trade Checklist, Signal Model, Position Sizing, Execution Rules, Exit Rules, Observability, Daily Report, and Stop Conditions.
+- `skills/agentic-contest-trader/SKILL.md` covers YAML metadata, trigger phrases, non-trigger guardrails, Purpose, Hard Compliance Rules, Eligibility Targets, Allowed Chains, Disallowed Trade Types, Pre-Trade Checklist, Signal Model, Position Sizing, Execution Rules, Exit Rules, Observability, Daily Report, output format, examples, and Stop Conditions.
 - `prompts/agentic_registration_prompt.md` contains the official registration prompt and non-sensitive safety reminders.
 - `config/contest.config.json` declares Solana / X Layer, single registered account only, Agentic Wallet execution, and wallet export disqualification.
 - `scripts/check_compliance.ts` rejects multi-account operation, wallet export, wash trading, circular trading, external reverse hedging, non-counting swaps, over-risk plans, over-slippage plans, low reserve plans, and missing stop/take/logging plans.
 - `scripts/check_compliance.ts` also rejects missing eligibility evidence, missing trade identity, non-OnchainOS signal sources, missing or invalid core risk fields, excessive position size, and excessive daily loss.
 - `scripts/validate_config.ts` validates contest config, primary stack, tracked metrics, and risk config shape.
 - `scripts/summarize_trades.ts` reads local JSONL logs only and produces aggregate stats plus a Markdown daily report.
-- `tests/*.test.ts` covers compliant and rejected trade plans, invalid swap filtering, risk config validation, wallet export, registered account count, and trade summary output.
-- `QUALITY_AWARD_RUBRIC.md` maps the package to strategy completeness, risk control, execution reliability, user safety onboarding, and observability.
+- `tests/*.test.ts` covers compliant and rejected trade plans, invalid swap filtering, risk config validation, wallet export, registered account count, Skill metadata quality, trigger coverage, and trade summary output.
+- `SUBMISSION_EVIDENCE.md` summarizes package scope, primary stack evidence, Skill structure, strategy/risk evidence, observability evidence, and local verification commands.
 - `docs/judge_walkthrough.md` gives reviewers a short path to inspect and run the package.
 - `examples/` includes compliant and rejected trade plans plus a redacted daily report example.
 
 ## Validation Summary
 
-- `npm test`: pass, includes tests for missing eligibility evidence, invalid stop/take triggers, OnchainOS source enforcement, non-negative numeric risk fields, position size, and daily loss.
+- `npm test`: pass, includes tests for Skill metadata, trigger guardrails, missing eligibility evidence, invalid stop/take triggers, OnchainOS source enforcement, non-negative numeric risk fields, position size, and daily loss.
 - `npm run validate:config`: pass.
 - `check_compliance` compliant-plan smoke: pass.
 - `check_compliance` wallet-export smoke: expected fail with `wallet_export_forbidden`.

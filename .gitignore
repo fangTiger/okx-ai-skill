@@ -1,0 +1,6 @@
+node_modules/
+logs/*.jsonl
+logs/*.md
+!.gitkeep
+*.log
+.DS_Store

@@ -22,6 +22,8 @@ skills/agentic-contest-trader/SKILL.md
 
 Check that it covers:
 
+- YAML frontmatter with `name` and `description`.
+- Trigger phrases and non-trigger guardrails.
 - Purpose.
 - Hard compliance rules.
 - Competition eligibility targets.
@@ -34,23 +36,25 @@ Check that it covers:
 - Exit rules.
 - Observability.
 - Daily report.
+- Output format and proceed/reject examples.
 - Stop conditions.
 
-## 3. Review Award Criteria Mapping
+## 3. Review Submission Evidence
 
 Open:
 
 ```text
-QUALITY_AWARD_RUBRIC.md
+SUBMISSION_EVIDENCE.md
 ```
 
-This maps the submission to:
+This summarizes:
 
-- Strategy completeness.
-- Risk control framework.
-- Execution reliability.
-- User safety onboarding.
-- Observability.
+- Package scope.
+- OnchainOS / Agentic Wallet primary stack.
+- Skill structure.
+- Strategy and risk evidence.
+- Observability evidence.
+- Local verification commands.
 
 ## 4. Run Local Verification
 
@@ -63,7 +67,7 @@ npm run validate:config
 
 Expected result:
 
-- `npm test` passes 24 tests.
+- `npm test` passes 29 tests.
 - `validate:config` returns `valid: true`.
 
 ## 5. Run Example Compliance Checks

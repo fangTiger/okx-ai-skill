@@ -10,7 +10,7 @@
 - [x] 本地脚本可离线校验配置、检查合规、汇总交易日志。
 - [x] README 或 Skill 文档提供用户安全引导，明确不得导出钱包或粘贴 secrets。
 - [x] `docs/submission_review.md` 已更新当前 pass/fail、缺失项、建议改进和 secret scan 结论。
-- [x] `QUALITY_AWARD_RUBRIC.md` 已逐项映射评审标准和证据文件。
+- [x] `SUBMISSION_EVIDENCE.md` 已汇总提交范围、主工具链、风控、可观测性和本地验证证据。
 - [x] `docs/judge_walkthrough.md` 已提供评审者运行路径。
 - [x] `examples/` 已提供通过、拒绝和日报样例。
 
